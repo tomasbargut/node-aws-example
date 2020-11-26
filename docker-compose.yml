@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  backend:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PORT: "${DB_PORT}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASS}"
+      DB_NAME: "${DB_NAME}"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+  db:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASS}"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
